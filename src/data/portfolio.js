@@ -1,12 +1,14 @@
-// All visible text from the original index.html, unchanged.
+// All visible text for the portfolio.
 
 export const logo = 'ALFRED';
 
+// `secret` themes only appear in the picker once unlocked (Konami code).
 export const themes = [
   { id: 'gold', title: 'Gold theme' },
   { id: 'green', title: 'Green theme' },
   { id: 'blue', title: 'Blue theme' },
   { id: 'red', title: 'Red theme' },
+  { id: 'synth', title: 'Secret synthwave theme', secret: true },
 ];
 
 export const navLinks = [
@@ -17,6 +19,7 @@ export const navLinks = [
 ];
 
 export const hero = {
+  kicker: 'Player 1 · Ready',
   name: 'Alfred Reijo Philomin F',
   subtitle: 'A Computer Science Engineering Student',
 };
@@ -26,17 +29,19 @@ export const profile = {
   text: 'Aspiring Computer Science Engineer with a focus on Java and Full-Stack Development. Committed to solving complex engineering problems through innovative software solutions.',
 };
 
-// `level` is the label shown; `width` is the bar fill. They differ in the
-// original page and are kept as-is.
-export const expertise = [
-  { name: 'Full Stack Development', level: '70%', width: '90%' },
-  { name: 'Java', level: '95%', width: '85%' },
-  { name: 'Mobile Development', level: '60%', width: '80%' },
-  { name: 'Database Management', level: '85%', width: '85%' },
-];
+// `level` drives both the label and the bar fill (they used to disagree).
+export const expertise = {
+  title: 'Expertise',
+  items: [
+    { name: 'Full Stack Development', level: 70 },
+    { name: 'Java', level: 95 },
+    { name: 'Mobile Development', level: 60 },
+    { name: 'Database Management', level: 85 },
+  ],
+};
 
 export const education = {
-  title: '[ EDUCATION ]',
+  title: 'Education',
   items: [
     { school: "ST. MARY'S ANGLO-INDIAN HSS", details: '2012-2022 | HSE - 87%' },
     { school: 'LOYOLA-ICAM COLLEGE', details: '2022 - Present | CGPA: 8.0' },
@@ -79,10 +84,15 @@ export const projects = {
 };
 
 export const contact = {
-  title: '[ CONTACT ]',
-  lines: ['📞 8056291388', '✉️ reijo2314@gmail.com', '📍 Chennai - 600021'],
+  title: 'Contact',
+  lines: [
+    { icon: '📞', text: '8056291388', href: 'tel:+918056291388' },
+    { icon: '✉️', text: 'reijo2314@gmail.com', href: 'mailto:reijo2314@gmail.com' },
+    { icon: '📍', text: 'Chennai - 600021' },
+  ],
   socials: [
-    { label: 'GitHub', href: '#' },
+    { label: 'GitHub', href: 'https://github.com/D-OJIER' },
+    // TODO: add the LinkedIn profile URL.
     { label: 'LinkedIn', href: '#' },
   ],
 };

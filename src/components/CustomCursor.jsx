@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react';
+import { playSound } from '../game/sound';
 
-const INTERACTIVE_SELECTOR = 'a, button, .pixel-button, .color-btn, input, .headerLink';
+const INTERACTIVE_SELECTOR = 'a, button, .pixel-button, .color-btn, input, label, .headerLink';
+const FINE_POINTER = '(hover: hover) and (pointer: fine)';
 
-// Port of cursor.js. Position and transforms are written straight to the DOM
-// (no React state) so mouse movement never triggers a re-render.
+// Crosshair cursor. Position is written straight to the DOM (no React state)
+// so mouse movement never re-renders. Also plays the hover/click blips.
 export default function CustomCursor() {
   const cursorRef = useRef(null);
   const scopeRef = useRef(null);
@@ -11,10 +13,14 @@ export default function CustomCursor() {
   useEffect(() => {
     const cursor = cursorRef.current;
     const scope = scopeRef.current;
+    const finePointer = window.matchMedia(FINE_POINTER).matches;
     let lastX = 0;
     let lastY = 0;
+    let hovered = null;
 
     const updateCursor = (e) => {
+      // Hidden until the first move so it never sits in the top-left corner.
+      if (cursor.style.display !== 'flex') cursor.style.display = 'flex';
       const velocityX = e.clientX - lastX;
       const velocityY = e.clientY - lastY;
       const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
@@ -23,7 +29,6 @@ export default function CustomCursor() {
       const currentY = e.clientY - cursor.offsetHeight / 2;
       cursor.style.transform = `translate(${currentX}px, ${currentY}px)`;
 
-      // "Motion blur" effect based on velocity
       const angle = (Math.atan2(velocityY, velocityX) * 180) / Math.PI;
       const stretch = Math.min(speed / 10, 2);
       scope.style.transform = `rotate(${angle}deg) scale(${1 + stretch * 0.1}, ${1 - stretch * 0.05})`;
@@ -36,44 +41,39 @@ export default function CustomCursor() {
     const onDocLeave = () => {
       cursor.style.display = 'none';
     };
-    const onDocEnter = () => {
-      cursor.style.display = 'block';
+    // Delegated, so elements added later (HUD, dialogs) also get the hover state.
+    const onOver = (e) => {
+      const el = e.target.closest?.(INTERACTIVE_SELECTOR) ?? null;
+      if (el === hovered) return;
+      hovered = el;
+      cursor.classList.toggle('hovering', Boolean(el));
+      if (el) playSound('hover');
     };
-    const onHover = () => cursor.classList.add('hovering');
-    const onUnhover = () => cursor.classList.remove('hovering');
+    const onClick = (e) => {
+      if (e.target.closest?.(INTERACTIVE_SELECTOR)) playSound('click');
+    };
 
-    document.addEventListener('mousemove', updateCursor);
-    document.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('mouseup', onMouseUp);
-    document.addEventListener('mouseleave', onDocLeave);
-    document.addEventListener('mouseenter', onDocEnter);
-    // In the original, the browser's load-time mouseenter reached this
-    // listener (plain scripts ran before it fired). React mounts later and can
-    // miss it, so apply the same result if the pointer is already on the page.
-    if (document.documentElement.matches(':hover')) onDocEnter();
-
-    // The page is static, so the interactive elements all exist once mounted.
-    const interactive = document.querySelectorAll(INTERACTIVE_SELECTOR);
-    interactive.forEach((el) => {
-      el.addEventListener('mouseover', onHover);
-      el.addEventListener('mouseleave', onUnhover);
-    });
+    if (finePointer) {
+      document.addEventListener('mousemove', updateCursor);
+      document.addEventListener('mousedown', onMouseDown);
+      document.addEventListener('mouseup', onMouseUp);
+      document.documentElement.addEventListener('mouseleave', onDocLeave);
+      document.addEventListener('mouseover', onOver);
+    }
+    document.addEventListener('click', onClick);
 
     return () => {
       document.removeEventListener('mousemove', updateCursor);
       document.removeEventListener('mousedown', onMouseDown);
       document.removeEventListener('mouseup', onMouseUp);
-      document.removeEventListener('mouseleave', onDocLeave);
-      document.removeEventListener('mouseenter', onDocEnter);
-      interactive.forEach((el) => {
-        el.removeEventListener('mouseover', onHover);
-        el.removeEventListener('mouseleave', onUnhover);
-      });
+      document.documentElement.removeEventListener('mouseleave', onDocLeave);
+      document.removeEventListener('mouseover', onOver);
+      document.removeEventListener('click', onClick);
     };
   }, []);
 
   return (
-    <div id="customCursor" ref={cursorRef}>
+    <div id="customCursor" ref={cursorRef} aria-hidden="true">
       <div className="cursor-scope" ref={scopeRef}>
         <div className="scope-ring"></div>
         <div className="scope-crosshair">

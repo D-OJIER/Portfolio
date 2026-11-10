@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import { GameProvider } from './game/GameContext';
 import { applyAppearanceToDocument, readSavedAppearance } from './hooks/useTheme';
 import './style.css';
 
@@ -10,6 +11,8 @@ applyAppearanceToDocument(readSavedAppearance());
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <GameProvider>
+      <App />
+    </GameProvider>
   </StrictMode>,
 );
