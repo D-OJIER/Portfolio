@@ -6,6 +6,7 @@ import {
   SECTION_IDS,
   SPEEDRUN_MS,
   STANDARD_THEMES,
+  WISDOM_COUNT,
 } from './achievements';
 import { playSound, setSoundEnabled } from './sound';
 import { load, save } from './storage';
@@ -47,6 +48,7 @@ export function GameProvider({ children }) {
       sections: new Set(),
       projects: new Set(),
       logoClicks: [],
+      quotesRead: new Set(),
       startedAt: Date.now(),
       timers: new Set(),
     };
@@ -147,6 +149,20 @@ export function GameProvider({ children }) {
         const now = Date.now();
         s.logoClicks = [...s.logoClicks.filter((t) => now - t < 2000), now];
         if (s.logoClicks.length >= 5) a.unlock('button-masher');
+      },
+
+      quoteRead(text) {
+        s.quotesRead.add(text);
+        if (s.quotesRead.size >= WISDOM_COUNT) a.unlock('wanderer');
+      },
+
+      pokeWanderer() {
+        a.unlock('fellow-traveller');
+      },
+
+      rest() {
+        playSound('coin');
+        a.unlock('bonfire-lit');
       },
 
       contactClick() {

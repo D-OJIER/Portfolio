@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { hero } from '../../data/portfolio';
+import { randomQuote } from '../../data/quotes';
 import { useGame } from '../../game/GameContext';
 import { sessionFlag, setSessionFlag } from '../../game/storage';
 
@@ -10,6 +11,7 @@ export default function StartScreen() {
   const { actions } = useGame();
   const [phase, setPhase] = useState(() => (sessionFlag(SESSION_KEY) ? 'done' : 'idle'));
   const startedRef = useRef(false);
+  const [quote] = useState(randomQuote);
   const buttonRef = useRef(null);
 
   const begin = useCallback(() => {
@@ -60,12 +62,13 @@ export default function StartScreen() {
             begin();
           }}
         >
-          ▶ Press start
+          ► Press start
         </button>
         <p className="start-coin">
           Insert coin <span aria-hidden="true">·</span> Credit {phase === 'leaving' ? '01' : '00'}
         </p>
         <p className="start-hint">Click or press any key</p>
+        <p className="start-quote">“{quote.text}”</p>
       </div>
     </div>
   );

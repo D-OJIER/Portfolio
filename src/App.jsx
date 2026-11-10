@@ -15,6 +15,9 @@ import Toasts from './components/arcade/Toasts';
 import AchievementsPanel from './components/arcade/AchievementsPanel';
 import FxLayer from './components/arcade/FxLayer';
 import CrtOverlay from './components/arcade/CrtOverlay';
+import Soapstone from './components/quotes/Soapstone';
+import Whisper from './components/quotes/Whisper';
+import Bonfire from './components/quotes/Bonfire';
 import { useTheme } from './hooks/useTheme';
 import { useKonami } from './hooks/useKonami';
 import { useSectionTracking } from './hooks/useInView';
@@ -51,19 +54,26 @@ export default function App() {
         <Hero />
 
         <div className="theTopics">
+          <Soapstone slot="after-hero" />
           <Profile />
+          <Soapstone slot="after-profile" />
           <Expertise />
+          <Soapstone slot="after-expertise" />
 
           <div className="two-column">
             <Education />
             <Skills />
           </div>
 
+          <Soapstone slot="after-columns" />
           <Projects />
+          <Soapstone slot="after-projects" />
           <Contact />
+          <Bonfire />
         </div>
       </main>
 
+      <Whisper />
       <Hud />
       <FxLayer />
       <Toasts />

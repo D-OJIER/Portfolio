@@ -1,6 +1,6 @@
 // All visible text for the portfolio.
 
-export const logo = 'ALFRED';
+export const logo = 'Alfred';
 
 // `secret` themes only appear in the picker once unlocked (Konami code).
 export const themes = [
@@ -11,11 +11,13 @@ export const themes = [
   { id: 'synth', title: 'Secret synthwave theme', secret: true },
 ];
 
+// Waypoints on the header map (in page order).
 export const navLinks = [
   { label: 'Profile', href: '#profile' },
-  { label: 'Skills', href: '#skills' },
+  { label: 'Skills', href: '#expertise' },
   { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
+  { label: 'Bonfire', href: '#bonfire' },
 ];
 
 export const hero = {
@@ -33,10 +35,10 @@ export const profile = {
 export const expertise = {
   title: 'Expertise',
   items: [
-    { name: 'Full Stack Development', level: 70 },
-    { name: 'Java', level: 95 },
-    { name: 'Mobile Development', level: 60 },
-    { name: 'Database Management', level: 85 },
+    { name: 'Full Stack Development', level: 70, glyph: 'stack' },
+    { name: 'Java', level: 95, glyph: 'java' },
+    { name: 'Mobile Development', level: 60, glyph: 'mobile' },
+    { name: 'Database Management', level: 85, glyph: 'database' },
   ],
 };
 
@@ -62,6 +64,8 @@ export const skills = {
   ],
 };
 
+// `geometry` picks the animated emblem. Each screen shows `image` (a path
+// under public/) when given, otherwise an illustrative mock-up (`mock`).
 export const projects = {
   title: 'Engineering Projects',
   items: [
@@ -69,16 +73,37 @@ export const projects = {
       name: 'RentEase',
       description:
         'Mobile application using React Native, implementing real-time database synchronization with Firebase and RESTful API integration.',
+      geometry: 'handoff',
+      tags: ['React Native', 'Firebase', 'REST'],
+      repo: 'https://github.com/D-OJIER/RentEase',
+      screens: [
+        { label: 'Browse', mock: 'rent-browse' },
+        { label: 'Cart', mock: 'rent-cart' },
+        { label: 'Chat', mock: 'rent-chat' },
+      ],
     },
     {
       name: 'Parker',
       description:
         'Smart parking management system with MongoDB backend, featuring real-time occupancy tracking and automated billing.',
+      geometry: 'bays',
+      tags: ['MongoDB', 'Real-time', 'Billing'],
+      screens: [
+        { label: 'Live occupancy', mock: 'parker-live' },
+        { label: 'Billing', mock: 'parker-bill' },
+      ],
     },
     {
       name: 'Campus One',
       description:
         'Centralized campus communication platform built with React.js, featuring JWT authentication and WebSocket integration.',
+      geometry: 'hub',
+      tags: ['React.js', 'JWT', 'WebSocket'],
+      repo: 'https://github.com/D-OJIER/1Campus',
+      screens: [
+        { label: 'Event feed', mock: 'campus-feed' },
+        { label: 'Calendar', mock: 'campus-cal' },
+      ],
     },
   ],
 };
@@ -86,9 +111,9 @@ export const projects = {
 export const contact = {
   title: 'Contact',
   lines: [
-    { icon: '📞', text: '8056291388', href: 'tel:+918056291388' },
-    { icon: '✉️', text: 'reijo2314@gmail.com', href: 'mailto:reijo2314@gmail.com' },
-    { icon: '📍', text: 'Chennai - 600021' },
+    { icon: 'phone', text: '8056291388', href: 'tel:+918056291388' },
+    { icon: 'mail', text: 'reijo2314@gmail.com', href: 'mailto:reijo2314@gmail.com' },
+    { icon: 'pin', text: 'Chennai - 600021' },
   ],
   socials: [
     { label: 'GitHub', href: 'https://github.com/D-OJIER' },

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { contact } from '../../data/portfolio';
 import { useGame } from '../../game/GameContext';
 import { useInView } from '../../hooks/useInView';
+import Icon from '../Icon';
 
 const COUNTDOWN_FROM = 9;
 
@@ -50,8 +51,8 @@ export default function Contact() {
       <h2>{contact.title}</h2>
       <div className="contact-info">
         {contact.lines.map((line) => (
-          <p key={line.text}>
-            <span aria-hidden="true">{line.icon}</span>{' '}
+          <p key={line.text} className="contact-line">
+            <Icon name={line.icon} size={14} className="contact-icon" />
             {line.href ? (
               <a href={line.href} className="contact-link" onClick={onContact}>
                 {line.text}

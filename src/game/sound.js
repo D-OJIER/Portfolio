@@ -38,6 +38,7 @@ const arpeggio = (notes, step, extra = {}) =>
 const SOUNDS = {
   hover: [{ freq: 1200, dur: 0.025, vol: 0.012 }],
   click: [{ freq: 440, to: 880, dur: 0.06, vol: 0.03 }],
+  jump: [{ freq: 300, to: 700, dur: 0.12, vol: 0.04 }],
   pop: [
     { freq: 700, to: 90, dur: 0.18, type: 'triangle', vol: 0.07 },
     { freq: 1400, to: 300, dur: 0.07, vol: 0.02 },

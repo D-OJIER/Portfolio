@@ -1,5 +1,6 @@
 import { ACHIEVEMENTS } from '../../game/achievements';
 import { useGame } from '../../game/GameContext';
+import Icon from '../Icon';
 
 const pad = (n) => String(n).padStart(6, '0');
 
@@ -19,7 +20,7 @@ export default function Hud() {
       </div>
       <div className="hud-buttons">
         <button type="button" className="hud-btn" onClick={actions.openPanel} aria-label="Achievements">
-          ♛ {unlocked.size}/{ACHIEVEMENTS.length}
+          <Icon name="trophy" size={11} /> {unlocked.size}/{ACHIEVEMENTS.length}
         </button>
         <button
           type="button"
